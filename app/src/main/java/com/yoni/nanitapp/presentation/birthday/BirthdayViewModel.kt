@@ -2,6 +2,7 @@ package com.yoni.nanitapp.presentation.birthday
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.yoni.nanitapp.domain.BirthdayData
 import com.yoni.nanitapp.domain.usecase.CalculateAgeUseCase
 import com.yoni.nanitapp.domain.usecase.ObserveCachedBirthdayDataUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -28,27 +29,10 @@ class BirthdayViewModel @Inject constructor(
     private fun observeCachedBirthdayData() {
         viewModelScope.launch {
             observeCachedBirthdayDataUseCase()
-                .collect { cachedBirthdayData ->
-                    if (cachedBirthdayData != null) {
+                .collect { birthdayData ->
+                    if (birthdayData != null) {
                         try {
-                            val ageInfo = calculateAgeUseCase(cachedBirthdayData.birthDate)
-                            val themeResources = cachedBirthdayData.theme.toThemeResources()
-                            val numberIconResource = ageInfo.value.toNumberIconResource()
-                            val ageText = ageInfo.toDisplayText()
-
-                            val currentPhotoUri = when (val currentState = _uiState.value) {
-                                is BirthdayScreenUiState.Success -> currentState.photoUri
-                                else -> null
-                            }
-
-                            _uiState.value = BirthdayScreenUiState.Success(
-                                name = cachedBirthdayData.name,
-                                ageInfo = ageInfo,
-                                themeResources = themeResources,
-                                numberIconResource = numberIconResource,
-                                ageText = ageText,
-                                photoUri = currentPhotoUri
-                            )
+                            processedBirthdayData(birthdayData = birthdayData)
                         } catch (e: Exception) {
                             _uiState.value = BirthdayScreenUiState.Error(
                                 message = "Error processing birthday data: ${e.message}"
@@ -70,5 +54,26 @@ class BirthdayViewModel @Inject constructor(
                 else -> currentState
             }
         }
+    }
+
+    private fun processedBirthdayData(birthdayData: BirthdayData) {
+        val ageInfo = calculateAgeUseCase(birthdayData.birthDate)
+        val themeResources = birthdayData.theme.toThemeResources()
+        val numberIconResource = ageInfo.value.toNumberIconResource()
+        val ageText = ageInfo.toDisplayText()
+
+        val currentPhotoUri = when (val currentState = _uiState.value) {
+            is BirthdayScreenUiState.Success -> currentState.photoUri
+            else -> null
+        }
+
+        _uiState.value = BirthdayScreenUiState.Success(
+            name = birthdayData.name,
+            ageInfo = ageInfo,
+            themeResources = themeResources,
+            numberIconResource = numberIconResource,
+            ageText = ageText,
+            photoUri = currentPhotoUri
+        )
     }
 }

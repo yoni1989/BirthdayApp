@@ -143,7 +143,7 @@ fun BirthdayRoute(viewModel: BirthdayViewModel = hiltViewModel()) {
 }
 
 @Composable
-fun BirthdayScreen(
+private fun BirthdayScreen(
     uiState: BirthdayScreenUiState,
     onPhotoClick: () -> Unit,
     modifier: Modifier = Modifier
@@ -171,7 +171,7 @@ fun BirthdayScreen(
 }
 
 @Composable
-fun LoadingScreen(modifier: Modifier = Modifier) {
+private fun LoadingScreen(modifier: Modifier = Modifier) {
     Box(
         modifier = modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
@@ -208,7 +208,7 @@ fun ErrorScreen(
 }
 
 @Composable
-fun BabyMilestoneScreen(
+private fun BabyMilestoneScreen(
     uiState: BirthdayScreenUiState.Success,
     photoUri: String?,
     onPhotoClick: () -> Unit,
@@ -328,7 +328,7 @@ fun BabyMilestoneScreen(
 
 
 @Composable
-fun PhotoSelectionDialog(
+private fun PhotoSelectionDialog(
     onGalleryClick: () -> Unit,
     onCameraClick: () -> Unit,
     onDismiss: () -> Unit

@@ -56,7 +56,7 @@ fun ConnectionRoute(
 }
 
 @Composable
-fun ConnectionScreen(
+private fun ConnectionScreen(
     uiState: ConnectionUiState,
     onIpAddressChange: (String) -> Unit,
     onPortChange: (String) -> Unit,
