@@ -258,7 +258,7 @@ fun BabyMilestoneScreen(
                         )
                     }
                     Image(
-                        painter = painterResource(id = R.drawable.ic_camera_blue),
+                        painter = painterResource(id = uiState.themeResources.cameraIcon),
                         contentDescription = "Camera",
                         modifier = Modifier
                             .align(Alignment.Center)
