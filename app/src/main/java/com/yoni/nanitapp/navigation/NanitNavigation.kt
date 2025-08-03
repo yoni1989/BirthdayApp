@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.yoni.nanitapp.presentation.birthday.BirthdayRoute
 import com.yoni.nanitapp.presentation.connection.ConnectionRoute
 
 const val CONNECTION = "connection"
@@ -26,7 +27,7 @@ fun BirthdayNavigation(navController: NavHostController) {
         }
 
         composable(BIRTHDAY) {
-
+            BirthdayRoute()
         }
     }
 }
